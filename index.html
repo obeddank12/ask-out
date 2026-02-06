@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Someone Say Yes! | Obed</title>
+    <link rel="icon" href="https://fav.farm/❤️" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="card">
+        <h1>Create a Trap 😈</h1>
+        <p style="margin-top: -10px; opacity: 0.8;">Enter details to generate your prank link</p>
+        
+        <div class="input-group">
+            <input type="text" id="from" placeholder="Your Name (e.g., Obed)">
+            <input type="text" id="to" placeholder="Recipient's Name">
+            <input type="text" id="q" placeholder="Your Question">
+        </div>
+        
+        <button onclick="generate()" style="width: 100%; margin-top: 15px; font-size: 1rem;">
+            Generate Link <i class="fas fa-magic"></i>
+        </button>
+
+        <div id="output" style="display: none; margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px;">
+            <p style="font-weight: bold; margin-bottom: 5px;">Link Ready! Share it:</p>
+            <div class="generated-box">
+                <p id="linkText"></p>
+            </div>
+            
+            <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 15px;">
+                <button onclick="copy()" style="background: #333; flex: 1; font-size: 0.9rem;">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+                <button onclick="shareWhatsApp()" style="background: #25D366; flex: 2; font-size: 0.9rem;">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="watermark">Developed by Obed</div>
+
+    <script>
+        function generate() {
+            const from = document.getElementById('from').value || "Someone";
+            const to = document.getElementById('to').value || "You";
+            const q = document.getElementById('q').value || "Will you say yes?";
+            
+            const params = `?f=${encodeURIComponent(from)}&t=${encodeURIComponent(to)}&q=${encodeURIComponent(q)}`;
+            
+            // Constructs the URL correctly for GitHub Pages or Local files
+            let baseUrl = window.location.href.split('index.html')[0];
+            if (!baseUrl.endsWith('/')) baseUrl += '/';
+            
+            const finalUrl = baseUrl + "ask.html" + params;
+            
+            document.getElementById('linkText').innerText = finalUrl;
+            document.getElementById('output').style.display = 'block';
+            
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        function copy() {
+            const text = document.getElementById('linkText').innerText;
+            navigator.clipboard.writeText(text);
+            alert("Link copied to clipboard! 📋");
+        }
+
+        function shareWhatsApp() {
+            const url = document.getElementById('linkText').innerText;
+            const msg = encodeURIComponent("Hey! I have a question for you... click here to see: " + url);
+            window.open(`https://wa.me/?text=${msg}`, '_blank');
+        }
+
+        window.onblur = function () { document.title = "Hey! Come back! 🥺"; }
+        window.onfocus = function () { document.title = "Make Someone Say Yes! | Obed"; }
+    </script>
+</body>
+</html>

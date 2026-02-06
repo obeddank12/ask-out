@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A question for you... | Obed</title>
+    <link rel="icon" href="https://fav.farm/❤️" />
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <h2 id="toDisplay">Hey!</h2>
+        <h1 id="qDisplay">Will you...?</h1>
+        <p style="margin-bottom: 20px;">Sent with ❤️ by <span id="fDisplay" style="font-weight: 600;"></span></p>
+
+        <div class="btn-group" id="btnContainer">
+            <button id="yesBtn" onclick="finish()">Yes</button>
+            <button id="noBtn" onmouseover="move()" ontouchstart="move()" onclick="move()">No</button>
+        </div>
+
+        <button class="create-own-btn" onclick="location.href='index.html'">
+            Create your own question
+        </button>
+    </div>
+
+    <div class="watermark">Developed by Obed</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const sender = params.get('f') || "Someone";
+        const receiver = params.get('t') || "You";
+        const question = params.get('q') || "Will you say yes?";
+
+        document.getElementById('fDisplay').innerText = sender;
+        document.getElementById('toDisplay').innerText = "Hey " + receiver + "!";
+        document.getElementById('qDisplay').innerText = question;
+
+        let scale = 1;
+
+        function move() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            
+            // Calculate random position while keeping button within viewport
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.position = "fixed";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+            noBtn.style.zIndex = "1000";
+
+            // Make the Yes button grow
+            scale += 0.5; 
+            yesBtn.style.transform = `scale(${scale})`;
+            
+            document.getElementById('btnContainer').style.overflow = "visible";
+            document.getElementById('mainCard').style.overflow = "visible";
+        }
+
+        function finish() {
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                origin: { y: 0.6 }
+            });
+
+            document.getElementById('mainCard').innerHTML = `
+                <h1 style="font-size: 3rem;">Yay! ❤️</h1>
+                <p style="font-size: 1.3rem; margin: 15px 0;">I knew you'd say yes!</p>
+                <button onclick="location.href='index.html'" class="create-own-btn" style="margin-top: 20px; opacity: 1;">
+                    Create your own prank
+                </button>
+            `;
+        }
+
+        window.onblur = function () { document.title = "Answer the question! 🥺"; }
+        window.onfocus = function () { document.title = "A question for you... | Obed"; }
+    </script>
+</body>
+</html>
